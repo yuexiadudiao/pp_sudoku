@@ -3,3 +3,4 @@ build/
 
 #file
 .DS_Store
+bin/test
