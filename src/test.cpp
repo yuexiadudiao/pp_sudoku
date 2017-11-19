@@ -4,10 +4,15 @@
 
 
 #include"DataBase.hpp"
+#include"Sudoku.hpp"
+#include"Dfs.hpp"
 
 using namespace std;
 
-#define TEST_API_2
+/* 测试列表 */
+//#define TEST_API_1
+//#define TEST_API_2
+//#define TEST_API_3
 
 int main()
 {
@@ -45,11 +50,20 @@ int main()
 	//测试	search 函数
 	cout<<"testing function search()......"<<endl;
 	vector<PosePointID> numlist;
-  PosePoint a(string("100000000000000000000000000000000000000000000000000000000000000000000000000000000"));
+  PosePoint a(string("000000000000000000100000000000001000010000000000000000000000100000000000000100000"));
 	cout<<"now searching temple "<<a<<endl;
   db.search(a,numlist);
 	cout<<"there are "<<numlist.size()<<" matched PosePoint:"<<endl;
 	for(int i=0;i<numlist.size();i++)
 	cout<<numlist[i]<<endl;
 	#endif
+
+	Sudoku mysudoku("4....283..8.1.4..27.6.8.5..1....7.5.27.5...19.3.94...6..8.9.7.53..8.6.9..427....3");
+	Sudoku easy("600000302059030070730084000915203000406091503328547961183476259000308600204910807");
+
+	SUDOKU_DFS sudoku_dfs(&db,&easy);
+	//sudoku_dfs.sort_candidatelist();
+	
+	sudoku_dfs.print_candidatelist();
+
 }

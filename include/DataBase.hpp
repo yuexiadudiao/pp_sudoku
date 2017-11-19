@@ -18,8 +18,9 @@ private:
 public:
   DataBase();//构造函数自动创建数据库
   void create_allindex();//从文件中同时创建正向和反向索引
+  PosePoint getById(PosePointID ppid);
   //search API
-  void search(PosePoint& pp,vector<PosePointID>& numlist);
+  void search(const PosePoint& pp,vector<PosePointID>& numlist);
   //match API
   bool ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2);
   bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
@@ -28,6 +29,11 @@ public:
 DataBase::DataBase()
 {
   create_allindex();
+}
+
+PosePoint DataBase::getById(PosePointID ppid)
+{
+  return m_diindex[ppid];
 }
 
 void DataBase::create_allindex()
@@ -55,7 +61,7 @@ void DataBase::create_allindex()
     this->m_inindex.resize(81);//必须初始化
     for(int i=0;i<line.size();i++)
       if(line[i]=='1')
-        this->m_inindex[i].push_back(ppid);
+        this->m_inindex[80-i].push_back(ppid);//string的i位其实是二进制的高位
 
     count--;
   }
@@ -83,7 +89,7 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
 }
 
 
-void DataBase::search(PosePoint& pp,vector<PosePointID>& numlist)
+void DataBase::search(const PosePoint& pp,vector<PosePointID>& numlist)
 {
 	if(pp==PosePoint(0))//先处理全0的特殊情况
 	{
@@ -95,9 +101,9 @@ void DataBase::search(PosePoint& pp,vector<PosePointID>& numlist)
 
 	vector<PosePointID> tmp;
 	vector<PosePointID>::iterator itend;
-	for(size_t i=0;i<pp.size();i++ )
+	for(size_t i=0;i<80;i++ )
 	{
-		if( pp.test(i) )
+		if( pp.test(i) )//test(pos),pos位是否为1
 		{++count;
 			if(count==1){
 				tmp.insert(tmp.end(),(this->m_inindex[i]).begin(),(this->m_inindex[i]).end());

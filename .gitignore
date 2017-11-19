@@ -3,4 +3,5 @@ build/
 
 #file
 .DS_Store
-bin/test
+bin/main
+bin/candidate_log.txt
