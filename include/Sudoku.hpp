@@ -18,6 +18,7 @@ public:
   void showArry();
   void update_ppsudoku(int update_num,const PosePoint& newpp);
   PosePoint getTemplateByNum(int num);
+  PosePoint createConflict(int num);//生成数字的冲突掩码
 };
 
 Sudoku::Sudoku(const string& str_sudoku)
@@ -83,6 +84,16 @@ void Sudoku::update_ppsudoku(int update_num,const PosePoint& newpp)
 PosePoint Sudoku::getTemplateByNum(int num)
 {
   return pp_sudoku[num-1];
+}
+
+PosePoint Sudoku::createConflict(int num)
+{
+  PosePoint tishe(0);
+  for(int i=0;i<9;i++)
+  {
+    tishe|= pp_sudoku[i];//有1则1
+  }
+  return tishe^pp_sudoku[num-1];//题设与自身进行异或操作
 }
 
 #endif

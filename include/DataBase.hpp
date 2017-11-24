@@ -20,7 +20,7 @@ public:
   void create_allindex();//从文件中同时创建正向和反向索引
   PosePoint getById(PosePointID ppid);
   //search API
-  void search(const PosePoint& pp,vector<PosePointID>& numlist);
+  void search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist);
   //match API
   bool ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2);
   bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
@@ -89,7 +89,7 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
 }
 
 
-void DataBase::search(const PosePoint& pp,vector<PosePointID>& numlist)
+void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist)
 {
 	if(pp==PosePoint(0))//先处理全0的特殊情况
 	{
@@ -114,7 +114,18 @@ void DataBase::search(const PosePoint& pp,vector<PosePointID>& numlist)
 			}
 		}
 	}
-
 	numlist.insert(numlist.end(),tmp.begin(),itend);
+  //接下来移除冲突的候选
+  for(vector<PosePointID>::iterator it=numlist.begin();it!=numlist.end();)
+  {
+    //cout<<this->m_diindex[*it]<<endl;
+    //cout<<conflict<<endl;
+    //cout<< this->m_diindex[*it]& <<endl;
+    //exit(1);
+    if((this->m_diindex[*it]&conflict) != PosePoint(0))
+      numlist.erase(it);
+    else
+      it++;
+  }
 }
 #endif

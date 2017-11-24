@@ -60,10 +60,9 @@ int main()
 
 	Sudoku mysudoku("4....283..8.1.4..27.6.8.5..1....7.5.27.5...19.3.94...6..8.9.7.53..8.6.9..427....3");
 	Sudoku easy("600000302059030070730084000915203000406091503328547961183476259000308600204910807");
+	Sudoku hard("005300000800000020070010500400005300010070006003200080060500009004000030000009700");
 
-	SUDOKU_DFS sudoku_dfs(&db,&easy);
-	//sudoku_dfs.sort_candidatelist();
-	
-	sudoku_dfs.print_candidatelist();
-
+	SUDOKU_DFS sudoku_dfs(&db,&hard);
+	int k;
+	cin>>k;
 }
