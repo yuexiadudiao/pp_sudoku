@@ -127,5 +127,6 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
     else
       it++;
   }
+
 }
 #endif
