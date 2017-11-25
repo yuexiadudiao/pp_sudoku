@@ -14,10 +14,12 @@ using namespace std;
 //#define TEST_API_2
 //#define TEST_API_3
 
-int main()
+int main(int argc,char** argv)
 {
 
+	time_t t1=clock();
 	DataBase db;
+	time_t t2=clock();
 
 	#ifdef TEST_API_1
 	//测试 ismatch_posepoint 函数
@@ -58,11 +60,23 @@ int main()
 	cout<<numlist[i]<<endl;
 	#endif
 
-	Sudoku s1("000060000020000000090000000010006025400000910000000004000640000000000800501000002");
-	Sudoku s2("600000302059030070730084000915203000406091503328547961183476259000308600204910807");//简单数独
-	Sudoku s3("005300000800000020070010500400005300010070006003200080060500009004000030000009700");//世界最难数独
 
+	if(argc!=2)
+	{
+			cerr<<"[Error]:please input sudoku!"<<endl;
+			exit(1);
+	}
+	string str(argv[1]);
+	Sudoku mysudoku(str);
 
-	SUDOKU_DFS sudoku_dfs(&db,&s1);
+	time_t b = clock();
+	SUDOKU_DFS sudoku_dfs(&db);
+	sudoku_dfs.resetSudoku(&mysudoku);
+	time_t e = clock();
+
+	cout<<"---------------------------------------------"<<endl;
+	cout<<"time of creating database:"<<(double)(t2 - t1)/CLOCKS_PER_SEC*1000<<"ms"<<endl;
+	cout<<"time of sort and dfs:"<<(double)(e - b)/CLOCKS_PER_SEC*1000<<"ms"<<endl;
+	cout<<"---------------------------------------------"<<endl;
 
 }

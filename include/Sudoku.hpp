@@ -74,6 +74,7 @@ void Sudoku::showArry()
     if(i==2 || i==5) cout<<"\n------------";
     cout<<endl;
   }
+  
 }
 
 void Sudoku::update_ppsudoku(int update_num,const PosePoint& newpp)

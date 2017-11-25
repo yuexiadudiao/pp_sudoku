@@ -24,7 +24,7 @@ private:
   vector<PosePointID> magic;
   int answer;
 public:
-  SUDOKU_DFS(DataBase* db,Sudoku* sudoku);
+  SUDOKU_DFS(DataBase* db);
   void resetSudoku(Sudoku* sudoku);
   void create_candidatelist();
   void print_candidatelist();
@@ -39,19 +39,11 @@ bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
   return a.second.size() < b.second.size();
 }
 
-SUDOKU_DFS::SUDOKU_DFS(DataBase* db,Sudoku* sudoku)
+SUDOKU_DFS::SUDOKU_DFS(DataBase* db)
 {
-  for(int i=0;i<9;i++)
-    order[i]=0;//初始化顺序数组
-  m_db = db;
-  m_sudoku = sudoku;
-  m_candidatelist.clear();
 
-  create_candidatelist();//创建数据
-  sort_candidatelist();//创建完数据之后，直接对vector排序
-  print_candidatelist();//打印日志
-  answer = 0;//答案计数器初始化
-  dfs(0);//最后一步搜索
+  m_db = db;
+
 }
 
 void SUDOKU_DFS::create_candidatelist()
@@ -64,13 +56,13 @@ void SUDOKU_DFS::create_candidatelist()
       reloopflag =false;
       for(int i=0;i<9;i++){
           NumList numlist;
-          cout<<"num "<<i+1<<":"<<endl;
-          cout<<"temple="<<m_sudoku->getTemplateByNum(i+1)<<endl;
-          cout<<"confli="<<m_sudoku->createConflict(i+1)<<endl;
+          //cout<<"num "<<i+1<<":"<<endl;
+          //cout<<"temple="<<m_sudoku->getTemplateByNum(i+1)<<endl;
+          //cout<<"confli="<<m_sudoku->createConflict(i+1)<<endl;
           m_db->search(m_sudoku->getTemplateByNum(i+1),m_sudoku->createConflict(i+1),numlist);
           if(numlist.size()==1 && hasupdate[i]==0) //只剩下一种情况，并且该数字没有更新过
           {
-              cout<<"num "<<i+1<<" has been confirmed!"<<endl;
+              //cout<<"num "<<i+1<<" has been confirmed!"<<endl;
               reloopflag = true;
               //修改pp_sudoku的内容
               m_sudoku->update_ppsudoku(i+1,m_db->getById(numlist[0]));
@@ -80,7 +72,7 @@ void SUDOKU_DFS::create_candidatelist()
           m_candidatelist.insert(std::pair<NumID,NumList>(i+1,numlist));
       }
   } while (reloopflag);
-  cout<<"candidatelist has been created!"<<endl;
+  //cout<<"candidatelist has been created!"<<endl;
 }
 
 /*
@@ -101,20 +93,21 @@ void SUDOKU_DFS::print_candidatelist()
     }
     log<<endl;
   }
+  log.close();
 }
 
 
 
 void SUDOKU_DFS::sort_candidatelist()
 {
-  cout<<"now sort it......"<<endl;
+  //cout<<"now sort it......"<<endl;
   vector<pair<NumID,NumList> > m_candidatelist_vec(m_candidatelist.begin(),m_candidatelist.end());
   sort(m_candidatelist_vec.begin(),m_candidatelist_vec.end(),comp);
   for(int i=0;i<9;i++)
     order[i]=m_candidatelist_vec[i].first;
 
-  cout<<"after sort:"<<endl;
-  info_candidatelist();
+  //cout<<"after sort:"<<endl;
+  //info_candidatelist();
 }
 
 void SUDOKU_DFS::info_candidatelist()
@@ -137,7 +130,7 @@ void SUDOKU_DFS::dfs(int layer)
       dfs(layer+1);//递归
       magic.pop_back();
     }
-    cout<<"exit dfs!"<<endl;
+    //cout<<"exit dfs!"<<endl;
   }
   else
   {
@@ -152,11 +145,11 @@ void SUDOKU_DFS::dfs(int layer)
         else
         {
           //最后一层，且满足，说明招到答案
-          cout<<"---------------------------------------------"<<endl;
-          cout<<"find anwser "<< ++answer <<" !"<<endl;
+          //cout<<"---------------------------------------------"<<endl;
+          //cout<<"find anwser "<< ++answer <<" !"<<endl;
+          //cout<<"---------------------------------------------"<<endl;
           for(int i=0;i<9;i++)
           {
-            //cout<<order[i]<<":"<<m_db->getById(magic[i])<<endl;
             m_sudoku->update_ppsudoku(order[i],m_db->getById(magic[i]));//提交修改
           }
           //m_sudoku->showArry();
@@ -165,6 +158,19 @@ void SUDOKU_DFS::dfs(int layer)
       }
     }
   }
+}
+void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
+{
+  for(int i=0;i<9;i++)
+    order[i]=0;//初始化顺序数组
+  m_sudoku = sudoku;
+  m_candidatelist.clear();
+
+  create_candidatelist();//创建数据
+  sort_candidatelist();//创建完数据之后，直接对vector排序
+  //print_candidatelist();//打印日志
+  answer = 0;//答案计数器初始化
+  dfs(0);//最后一步搜索
 }
 
 #endif
