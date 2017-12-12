@@ -2,6 +2,7 @@
 #define COMMEN_H
 
 #include<bitset>
+#include<vector>
 
 using namespace std;
 
