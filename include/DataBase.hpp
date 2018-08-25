@@ -88,7 +88,12 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
   return true;
 }
 
-
+/**搜索出候选位点
+*
+*候选位点必须满足以下条件：
+*1,满足模板 pp
+*2,不与 conflict 冲突
+*/
 void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist)
 {
 	if(pp==PosePoint(0))//先处理全0的特殊情况
@@ -97,6 +102,9 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
 			numlist.push_back(ppid);
 		return ;
 	}
+
+#if 0
+  //旧的方法
 	int count=0;
 
 	vector<PosePointID> tmp;
@@ -127,6 +135,17 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
     else
       it++;
   }
-
+#else
+  for(PosePointID ppid=0;ppid<46656;ppid++)
+  {
+    if( (pp & this->m_diindex[ppid])== pp)
+    {
+      if((conflict & this->m_diindex[ppid]) == 0)
+      {
+        numlist.push_back(ppid);
+      }
+    }
+  }
+#endif
 }
 #endif

@@ -68,6 +68,8 @@ int main(int argc,char** argv)
 	}
 	string str(argv[1]);
 	Sudoku mysudoku(str);
+	
+	mysudoku.showArry();	
 
 	time_t b = clock();
 	SUDOKU_DFS sudoku_dfs(&db);
@@ -79,4 +81,5 @@ int main(int argc,char** argv)
 	cout<<"time of sort and dfs:"<<(double)(e - b)/CLOCKS_PER_SEC*1000<<"ms"<<endl;
 	cout<<"---------------------------------------------"<<endl;
 
+	mysudoku.showArry();
 }

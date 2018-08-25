@@ -9,6 +9,12 @@
 
 using namespace std;
 
+/**这个是sudoku的数据结构
+*
+*这里并不是采用二维数组存储数独，而是用数字位点表示数独，
+×这种表示方法能快速生成数字的模板位点和冲突位点，只是最
+×后结果需要转换一下
+*/
 class Sudoku{
 public:
   vector<PosePoint> pp_sudoku;
@@ -47,6 +53,7 @@ Sudoku::Sudoku(const string& str_sudoku)
   //???
 }
 
+//把数独转换成我们常用的二维数组形式
 void Sudoku::toArry(int a[9][9])
 {
   for(int i=0;i<9;i++)
@@ -59,6 +66,7 @@ void Sudoku::toArry(int a[9][9])
   }
 }
 
+//打印数独给用户
 void Sudoku::showArry()
 {
   int arr_sudoku[9][9]={0};//必须初始化
@@ -74,19 +82,22 @@ void Sudoku::showArry()
     if(i==2 || i==5) cout<<"\n------------";
     cout<<endl;
   }
-  
+
 }
 
+//求解器通过该接口更新数独
 void Sudoku::update_ppsudoku(int update_num,const PosePoint& newpp)
 {
   pp_sudoku[update_num-1] = newpp;
 }
 
+//求解器通过该接口获取数字的模板位点
 PosePoint Sudoku::getTemplateByNum(int num)
 {
   return pp_sudoku[num-1];
 }
 
+//求解器通过该接口获取数字的冲突位点
 PosePoint Sudoku::createConflict(int num)
 {
   PosePoint tishe(0);
