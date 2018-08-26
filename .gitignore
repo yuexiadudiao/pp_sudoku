@@ -1,6 +1,7 @@
 #directory
 build/
 bin/
+!bin/posepoint.txt
 
 #file
 .DS_Store
