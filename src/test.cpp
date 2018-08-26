@@ -1,4 +1,5 @@
-
+/**本文件测试了相关的几个函数
+*/
 #include<iostream>
 #include<string>
 
@@ -59,27 +60,4 @@ int main(int argc,char** argv)
 	for(int i=0;i<numlist.size();i++)
 	cout<<numlist[i]<<endl;
 	#endif
-
-
-	if(argc!=2)
-	{
-			cerr<<"[Error]:please input sudoku!"<<endl;
-			exit(1);
-	}
-	string str(argv[1]);
-	Sudoku mysudoku(str);
-
-	mysudoku.showArry();
-
-	time_t b = clock();
-	SUDOKU_DFS sudoku_dfs(&db);
-	sudoku_dfs.resetSudoku(&mysudoku);
-	time_t e = clock();
-
-	cout<<"---------------------------------------------"<<endl;
-	cout<<"time of creating database:"<<(double)(t2 - t1)/CLOCKS_PER_SEC*1000<<"ms"<<endl;
-	cout<<"time of sort and dfs:"<<(double)(e - b)/CLOCKS_PER_SEC*1000<<"ms"<<endl;
-	cout<<"---------------------------------------------"<<endl;
-
-	mysudoku.showArry();
 }
