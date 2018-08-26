@@ -12,7 +12,6 @@
 #include<fstream>
 #include<algorithm>//使用了sort函数
 
-
 using namespace std;
 
 class SUDOKU_DFS{
@@ -152,17 +151,26 @@ void SUDOKU_DFS::dfs(int layer)
         magic.push_back(m_candidatelist[order[layer]][i]);//匹配就入栈
         if(layer!=8)
           dfs(layer+1);//递归
-        else
+        else//最后一层，且满足，说明招到答案
         {
-          //最后一层，且满足，说明招到答案
-          //cout<<"---------------------------------------------"<<endl;
-          //cout<<"find anwser "<< ++answer <<" !"<<endl;
-          //cout<<"---------------------------------------------"<<endl;
+          ++answer;
+
+          #ifdef PRINT_ANS
+               cout<<"---------------------------------------------"<<endl;
+               cout<<"find anwser "<< answer <<" !"<<endl;
+               cout<<"---------------------------------------------"<<endl;
+          #endif
+
+          /*提交答案，并修改到sudoku中，这里有一个BUG，如果有多解，之保留最后一个
+          但是可以即时打印输出给用户*/
           for(int i=0;i<9;i++)
           {
-            m_sudoku->update_ppsudoku(order[i],m_db->getById(magic[i]));//提交修改
+               m_sudoku->update_ppsudoku(order[i],m_db->getById(magic[i]));//提交修改
           }
-          //m_sudoku->showArry();
+
+          #ifdef PRINT_ANS
+               m_sudoku->showArry();
+          #endif
         }
         magic.pop_back();
       }
@@ -178,6 +186,14 @@ void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
      m_candidatelist.clear();//清空候选列表
      answer = 0;//答案计数器清零
      timer = 0;//计时器清零
+
+     /*这个时候可以根据需要打印题目*/
+     #ifdef PRINT_ANS
+          cout<<"---------------------------------------------"<<endl;
+          cout<<"sudoku problem !"<<endl;
+          cout<<"---------------------------------------------"<<endl;
+          m_sudoku->showArry();
+     #endif
 
      time_t t1=clock();
      /*1,创建候选的位点*/

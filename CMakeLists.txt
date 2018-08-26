@@ -20,3 +20,7 @@ src/batsolver.cpp
 add_executable(sigsolver
 src/single_solver.cpp
 )
+
+add_executable(sigloopsolver
+src/single_loop_solver.cpp
+)
