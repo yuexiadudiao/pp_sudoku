@@ -22,7 +22,9 @@ private:
   std::map<NumID,NumList>  m_candidatelist;
   int order[9];//顺序数组，指明数字的顺序
   vector<PosePointID> magic;
-  int answer;
+
+  int answer;/**< 答案计数器 */
+  double timer;/**< 记录运行的总时间，因为这个时间比较短所以暂时不细分 */
 public:
   SUDOKU_DFS(DataBase* db);
   void resetSudoku(Sudoku* sudoku);
@@ -31,8 +33,14 @@ public:
   void sort_candidatelist();
   void info_candidatelist();
   void dfs(int layer);
+  double get_time();
   static bool comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b);
 };
+
+double SUDOKU_DFS::get_time()
+{
+     return timer;
+}
 
 bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
 {
@@ -41,9 +49,11 @@ bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
 
 SUDOKU_DFS::SUDOKU_DFS(DataBase* db)
 {
+     m_db = db;
+     m_sudoku = NULL;
 
-  m_db = db;
-
+     answer = 0;//答案计数器初始化
+     timer = 0;//计时器初始化
 }
 
 void SUDOKU_DFS::create_candidatelist()
@@ -161,16 +171,28 @@ void SUDOKU_DFS::dfs(int layer)
 }
 void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
 {
-  for(int i=0;i<9;i++)
-    order[i]=0;//初始化顺序数组
-  m_sudoku = sudoku;
-  m_candidatelist.clear();
+     /*0，一些必要的初始化操作*/
+     for(int i=0;i<9;i++)//初始化顺序数组
+          order[i]=0;
+     m_sudoku = sudoku;//重定向数独数据
+     m_candidatelist.clear();//清空候选列表
+     answer = 0;//答案计数器清零
+     timer = 0;//计时器清零
 
-  create_candidatelist();//创建数据
-  sort_candidatelist();//创建完数据之后，直接对vector排序
-  //print_candidatelist();//打印日志
-  answer = 0;//答案计数器初始化
-  dfs(0);//最后一步搜索
+     time_t t1=clock();
+     /*1,创建候选的位点*/
+     create_candidatelist();
+
+     /*2,排序*/
+     sort_candidatelist();//创建完数据之后，直接对vector排序
+     //print_candidatelist();//打印日志
+
+     /*3,DFS 搜索*/
+     dfs(0);
+     time_t t2=clock();
+
+     //记录时间消耗
+     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
 }
 
 #endif

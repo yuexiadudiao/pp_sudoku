@@ -68,8 +68,8 @@ int main(int argc,char** argv)
 	}
 	string str(argv[1]);
 	Sudoku mysudoku(str);
-	
-	mysudoku.showArry();	
+
+	mysudoku.showArry();
 
 	time_t b = clock();
 	SUDOKU_DFS sudoku_dfs(&db);

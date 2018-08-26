@@ -16,3 +16,7 @@ src/test.cpp
 add_executable(batsolver
 src/batsolver.cpp
 )
+
+add_executable(sigsolver
+src/single_solver.cpp
+)

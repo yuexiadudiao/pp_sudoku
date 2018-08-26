@@ -42,6 +42,7 @@ Sudoku::Sudoku(const string& str_sudoku)
     string num(81,'0');
     for(int j=0;j<str_sudoku.size();j++)
     {
+      
       if(str_sudoku[j] == ('1'-1+i))
         num.at(j)='1';
     }

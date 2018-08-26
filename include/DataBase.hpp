@@ -1,12 +1,11 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include<vector>
-#include<iostream>
-#include<fstream>//需要读取文件
-#include<algorithm>
+#include <vector>
+#include <iostream>
+#include <fstream>//需要读取文件
 
-#include"commen.h"//使用位点
+#include "commen.h"//使用位点
 
 using namespace std;
 
@@ -15,6 +14,8 @@ class DataBase{
 private:
   vector<PosePoint> m_diindex;//正向索引0-46655,729kb
   vector<vector<PosePointID> > m_inindex;//反向索引0-80,820.125kb(bug1,还可以用bitset<46656>做，大约460kb，直接按位与运算)
+
+  double timer;/**< 记录从文件中创建正向索引和反向索引的时间 */
 public:
   DataBase();//构造函数自动创建数据库
   void create_allindex();//从文件中同时创建正向和反向索引
@@ -24,11 +25,25 @@ public:
   //match API
   bool ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2);
   bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
+  double get_time();
 };
 
 DataBase::DataBase()
 {
-  create_allindex();
+     timer = 0;//计时器清零
+
+     time_t t1 = clock();
+     //核心功能，自动创建索引
+     create_allindex();
+     time_t t2 = clock();
+
+     //记录时间消耗
+     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
+}
+
+double DataBase::get_time()
+{
+     return timer;
 }
 
 PosePoint DataBase::getById(PosePointID ppid)
@@ -96,46 +111,22 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
 */
 void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist)
 {
-	if(pp==PosePoint(0))//先处理全0的特殊情况
+	if(pp == PosePoint(0))//先处理全0的特殊情况
 	{
+		//for(PosePointID ppid=0;ppid<46656;ppid++)
+		//	numlist.push_back(ppid);
 		for(PosePointID ppid=0;ppid<46656;ppid++)
-			numlist.push_back(ppid);
+		{
+			if((conflict & this->m_diindex[ppid]) == 0)
+			{
+				numlist.push_back(ppid);
+			}
+		}
+
 		return ;
 	}
 
-#if 0
-  //旧的方法
-	int count=0;
 
-	vector<PosePointID> tmp;
-	vector<PosePointID>::iterator itend;
-	for(size_t i=0;i<80;i++ )
-	{
-		if( pp.test(i) )//test(pos),pos位是否为1
-		{++count;
-			if(count==1){
-				tmp.insert(tmp.end(),(this->m_inindex[i]).begin(),(this->m_inindex[i]).end());
-				itend = tmp.end();
-			}
-			else{
-				itend = set_intersection(tmp.begin(), itend, (this->m_inindex[i]).begin(), (this->m_inindex[i]).end(), tmp.begin());
-			}
-		}
-	}
-	numlist.insert(numlist.end(),tmp.begin(),itend);
-  //接下来移除冲突的候选
-  for(vector<PosePointID>::iterator it=numlist.begin();it!=numlist.end();)
-  {
-    //cout<<this->m_diindex[*it]<<endl;
-    //cout<<conflict<<endl;
-    //cout<< this->m_diindex[*it]& <<endl;
-    //exit(1);
-    if((this->m_diindex[*it]&conflict) != PosePoint(0))
-      numlist.erase(it);
-    else
-      it++;
-  }
-#else
   for(PosePointID ppid=0;ppid<46656;ppid++)
   {
     if( (pp & this->m_diindex[ppid])== pp)
@@ -146,6 +137,6 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
       }
     }
   }
-#endif
+
 }
 #endif
