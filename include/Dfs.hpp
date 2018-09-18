@@ -171,6 +171,14 @@ void SUDOKU_DFS::dfs(int layer)
           #ifdef PRINT_ANS
                m_sudoku->showArry();
           #endif
+
+          //只找一个解的开关
+          #ifdef JUSTONE
+               if(1 == answer)
+               {
+                    return;
+               }
+          #endif
         }
         magic.pop_back();
       }
