@@ -19,31 +19,31 @@ using namespace std;
 
 int main(int argc,char** argv)
 {
-	if(2 != argc)
-	{
-		cerr<<"[Error]:please input sudoku!"<<endl;
-		exit(1);
-	}
+    if(2 != argc)
+    {
+        cerr<<"[Error]:please input sudoku!"<<endl;
+        exit(1);
+    }
 
-     string str(argv[1]);
+    string str(argv[1]);
 
-	int loop = TEST_LOOP;
-	double db_avg = 0;
-	double sudoku_avg = 0;
-	while(loop--)
-	{
-		DataBase db;
-		Sudoku mysudoku(str);
-		SUDOKU_DFS sudoku_dfs(&db);
-		sudoku_dfs.resetSudoku(&mysudoku);
+    int loop = TEST_LOOP;
+    double db_avg = 0;
+    double sudoku_avg = 0;
+    while(loop--)
+    {
+        DataBase db;
+        Sudoku mysudoku(str);
+        SUDOKU_DFS sudoku_dfs(&db);
+        sudoku_dfs.resetSudoku(&mysudoku);
 
-		db_avg+= db.get_time();
-		sudoku_avg+= sudoku_dfs.get_time();
-	}
+        db_avg+= db.get_time();
+        sudoku_avg+= sudoku_dfs.get_time();
+    }
 
-	cout<<"----------------------database test("<<TEST_LOOP<<" loops)-----------------------"<<endl;
-	cout<<"avg_time of creating database  :"<<db_avg/TEST_LOOP<<"ms"<<endl;
+    cout<<"----------------------database test("<<TEST_LOOP<<" loops)-----------------------"<<endl;
+    cout<<"avg_time of creating database  :"<<db_avg/TEST_LOOP<<"ms"<<endl;
 
-	cout<<"-----------------------sudoku test("<<TEST_LOOP<<" loops)------------------------"<<endl;
-	cout<<"avg_time of search,sort and dfs:"<<sudoku_avg/TEST_LOOP<<"ms"<<endl;
+    cout<<"-----------------------sudoku test("<<TEST_LOOP<<" loops)------------------------"<<endl;
+    cout<<"avg_time of search,sort and dfs:"<<sudoku_avg/TEST_LOOP<<"ms"<<endl;
 }
