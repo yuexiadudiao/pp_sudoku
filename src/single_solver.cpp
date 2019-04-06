@@ -32,6 +32,6 @@ int main(int argc,char** argv)
     sudoku_dfs.resetSudoku(&mysudoku);
 
     cout<<"----------------------normal test-----------------------"<<endl;
-    cout<<"time of creating database  :"<<db.get_time()<<"ms"<<endl;
-    cout<<"time of search,sort and dfs:"<<sudoku_dfs.get_time()<<"ms"<<endl;
+    cout<<"time of creating database :"<<db.get_time()<<"ms"<<endl;
+    cout<<"time of match,sort and dfs:"<<sudoku_dfs.get_time()<<"ms"<<endl;
 }

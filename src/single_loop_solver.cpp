@@ -42,8 +42,8 @@ int main(int argc,char** argv)
     }
 
     cout<<"----------------------database test("<<TEST_LOOP<<" loops)-----------------------"<<endl;
-    cout<<"avg_time of creating database  :"<<db_avg/TEST_LOOP<<"ms"<<endl;
+    cout<<"avg_time of creating database :"<<db_avg/TEST_LOOP<<"ms"<<endl;
 
     cout<<"-----------------------sudoku test("<<TEST_LOOP<<" loops)------------------------"<<endl;
-    cout<<"avg_time of search,sort and dfs:"<<sudoku_avg/TEST_LOOP<<"ms"<<endl;
+    cout<<"avg_time of match,sort and dfs:"<<sudoku_avg/TEST_LOOP<<"ms"<<endl;
 }

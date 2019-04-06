@@ -127,7 +127,6 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
         return ;
     }
 
-
     for(PosePointID ppid=0; ppid<46656; ppid++)
     {
         if( (pp & this->m_diindex[ppid])== pp)
@@ -138,6 +137,5 @@ void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PoseP
             }
         }
     }
-
 }
 #endif
