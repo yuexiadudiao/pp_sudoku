@@ -11,9 +11,9 @@
 using namespace std;
 
 /* 测试列表 */
-//#define TEST_API_1
-//#define TEST_API_2
-//#define TEST_API_3
+#define TEST_API_1
+#define TEST_API_2
+
 
 int main(int argc,char** argv)
 {
@@ -49,15 +49,4 @@ int main(int argc,char** argv)
         cout<<"not match stack!"<<endl;
 #endif
 
-#ifdef TEST_API_3
-    //测试    search 函数
-    cout<<"testing function search()......"<<endl;
-    vector<PosePointID> numlist;
-    PosePoint a(string("000000000000000000100000000000001000010000000000000000000000100000000000000100000"));
-    cout<<"now searching temple "<<a<<endl;
-    db.search(a,numlist);
-    cout<<"there are "<<numlist.size()<<" matched PosePoint:"<<endl;
-    for(int i=0; i<numlist.size(); i++)
-        cout<<numlist[i]<<endl;
-#endif
 }

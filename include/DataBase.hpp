@@ -13,32 +13,41 @@ using namespace std;
 class DataBase
 {
 private:
-    vector<PosePoint> m_diindex;//正向索引0-46655,729kb
+    vector<PosePoint> m_diindex;/**< 记录0-46655号位点的具体数据 */
     vector<vector<PosePointID> > m_inindex;//反向索引0-80,820.125kb(bug1,还可以用bitset<46656>做，大约460kb，直接按位与运算)
 
-    double timer;/**< 记录从文件中创建正向索引和反向索引的时间 */
+    double timer;/**< 创建数据库耗时 */
 public:
-    DataBase();//构造函数自动创建数据库
-    void create_allindex();//从文件中同时创建正向和反向索引
+    /*创建数据库，并记录时间*/
+    DataBase();
+
+    /*读取文件创建正向和反向索引*/
+    void create_allindex();
+
+    /*获取一个ID对应的位点数据*/
     PosePoint getById(PosePointID ppid);
-    //search API
+
+    /* */
     void search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist);
-    //match API
+
+    /*检查一个位点是否与另一个匹配*/
     bool ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2);
+
+    /*检查一个位点是否与一个位点集合匹配*/
     bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
+
+    /*获取数据库创建的时间*/
     double get_time();
 };
 
 DataBase::DataBase()
 {
-    timer = 0;//计时器清零
+    timer = 0;
 
     time_t t1 = clock();
-    //核心功能，自动创建索引
     create_allindex();
     time_t t2 = clock();
 
-    //记录时间消耗
     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
 }
 
@@ -84,22 +93,50 @@ void DataBase::create_allindex()
     in.close();
 }
 
+/* 比较一个位点是否与另一个匹配
+ *
+ * @param[in]   ppid1   需要比较的第一个位点
+ * @param[in]   ppid2   需要比较的第二个位点
+ *
+ * @return 匹配返回true，不匹配返回false
+ *
+ */
 bool DataBase::ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2)
 {
-    //首先进行用户输入检查
-    if(ppid1<0 || ppid2<0 || ppid1>46655 || ppid2>46655 ) cerr<<"[Error]:PosePointID is not valid!"<<endl;
-    //进行按位与操作，双1则冲突，和谐则0，若全0则匹配
-    if(((this->m_diindex[ppid1])&(this->m_diindex[ppid2]))==PosePoint(0))//还可以用none，any等函数
+    /* 检查位点id和合法性 */
+    if(ppid1<0 || ppid2<0 || ppid1>46655 || ppid2>46655 )
+    {
+        cerr<<"[Error]:PosePointID is not valid!"<<endl;
+    }
+
+    /* 进行按位与操作，双1则冲突，和谐则0，若全0则匹配 */
+    if(((this->m_diindex[ppid1])&(this->m_diindex[ppid2])) == PosePoint(0))//还可以用none，any等函数
+    {
         return true;
+    }
     else
+    {
         return false;
+    }
 }
 
+
+/* 比较一个位点是否与位点集合匹配
+ *
+ * @param[in]   ppid        待比较的一个位点
+ * @param[in]   ppid_stack  待匹配的位点集合
+ *
+ * return 匹配返回true，不匹配返回false
+ *
+ */
 bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& ppid_stack )
 {
     for(int i=0; i < ppid_stack.size(); i++)
     {
-        if(!ismatch_posepoint(ppid,ppid_stack[i])) return false;
+        if(!ismatch_posepoint(ppid,ppid_stack[i]))
+        {
+            return false;
+        }
     }
     return true;
 }
@@ -109,6 +146,12 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
 *候选位点必须满足以下条件：
 *1,满足模板 pp
 *2,不与 conflict 冲突
+*
+* @param[in]    pp
+* @param[in]    conflict    题设中已经填写的数字
+* @param[in]    numlist
+*
+* return 无
 */
 void DataBase::search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist)
 {

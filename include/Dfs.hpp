@@ -17,23 +17,39 @@ using namespace std;
 class SUDOKU_DFS
 {
 private:
-    DataBase* m_db;
-    Sudoku* m_sudoku;
-    std::map<NumID,NumList>  m_candidatelist;
-    int order[9];//顺序数组，指明数字的顺序
-    vector<PosePointID> magic;
+    DataBase*                   m_db;
+    Sudoku*                     m_sudoku;
+    std::map<NumID,NumList>     m_candidatelist;
+    int                         order[9];//顺序数组，指明数字的顺序
+    vector<PosePointID>         magic;
 
-    int answer;/**< 答案计数器 */
-    double timer;/**< 记录运行的总时间，因为这个时间比较短所以暂时不细分 */
+    int                         answer;/**< 答案计数器 */
+    double                      timer;/**< 记录dfs算法时间 */
 public:
+    /**/
     SUDOKU_DFS(DataBase* db);
+
+    /*设置或重新设置数独题目*/
     void resetSudoku(Sudoku* sudoku);
+
+    /*为数独的每一个数字创建候选列表*/
     void create_candidatelist();
+
+    /**/
     void print_candidatelist();
+
+    /**/
     void sort_candidatelist();
+
+    /**/
     void info_candidatelist();
+
+    /**/
     void dfs(int layer);
+
+    /**/
     double get_time();
+
     static bool comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b);
 };
 
@@ -47,14 +63,8 @@ bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
     return a.second.size() < b.second.size();
 }
 
-SUDOKU_DFS::SUDOKU_DFS(DataBase* db)
-{
-    m_db = db;
-    m_sudoku = NULL;
+SUDOKU_DFS::SUDOKU_DFS(DataBase* db):m_db(db), m_sudoku(NULL), answer(0), timer(0){}
 
-    answer = 0;//答案计数器初始化
-    timer = 0;//计时器初始化
-}
 
 void SUDOKU_DFS::create_candidatelist()
 {
