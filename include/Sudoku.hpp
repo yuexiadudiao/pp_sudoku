@@ -50,7 +50,7 @@ public:
 Sudoku::Sudoku(const string& str_sudoku)
 {
     /* 输入必须是81个长度的字符串 */
-    if(81 != str_sudoku.size()!)
+    if(81 != str_sudoku.size())
     {
         std::cerr << "[Error]:input is not a valid sudoku string!\n";
         return;
