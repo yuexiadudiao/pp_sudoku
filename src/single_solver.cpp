@@ -2,15 +2,16 @@
 *
 *打印题目与求解结果
 */
+
+#define PRINT_ANS //显示开关
+//#define JUSTONE //一解开关
+
 #include<iostream>
 #include<string>
 
 #include"DataBase.hpp"
 #include"Sudoku.hpp"
 #include"Dfs.hpp"
-
-#define PRINT_ANS //显示开关
-#define JUSTONE //一解开关
 
 using namespace std;
 

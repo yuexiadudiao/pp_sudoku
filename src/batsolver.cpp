@@ -1,12 +1,12 @@
-#include"Dfs.hpp"
+//#define PRINT_ANS //显示开关
+#define JUSTONE //一解开关
 
 #include<fstream>
 #include<ctime>
 
-using namespace std;
+#include"Dfs.hpp"
 
-//#define PRINT_ANS //显示开关
-#define JUSTONE //一解开关
+using namespace std;
 
 int main(int argc,char** argv)
 {
@@ -26,6 +26,7 @@ int main(int argc,char** argv)
     time_t t1,t2;
 
     int count=0;
+    timelog<<"time"<<endl;
     while (!batsudoku.eof())
     {
         cout<<++count<<endl;

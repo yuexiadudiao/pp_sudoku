@@ -2,6 +2,7 @@
 build/
 bin/
 !bin/posepoint.txt
+!bin/plottime.py
 
 #file
 .DS_Store

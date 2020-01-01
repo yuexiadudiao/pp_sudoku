@@ -3,8 +3,9 @@
 *显示求解的平均时间
 */
 
-//静默测试
-//#define TEST_LOOP 300
+//#define PRINT_ANS //显示开关
+//#define JUSTONE //一解开关
+#define TEST_LOOP 300
 
 #include<iostream>
 #include<string>
@@ -12,10 +13,6 @@
 #include"DataBase.hpp"
 #include"Sudoku.hpp"
 #include"Dfs.hpp"
-
-//#define PRINT_ANS //显示开关
-#define JUSTONE //一解开关
-#define TEST_LOOP 300
 
 using namespace std;
 
