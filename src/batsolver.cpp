@@ -5,6 +5,9 @@
 
 using namespace std;
 
+//#define PRINT_ANS //显示开关
+#define JUSTONE //一解开关
+
 int main(int argc,char** argv)
 {
     if(argc!=2)

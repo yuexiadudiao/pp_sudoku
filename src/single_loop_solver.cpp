@@ -13,9 +13,11 @@
 #include"Sudoku.hpp"
 #include"Dfs.hpp"
 
-using namespace std;
-
+//#define PRINT_ANS //显示开关
+#define JUSTONE //一解开关
 #define TEST_LOOP 300
+
+using namespace std;
 
 int main(int argc,char** argv)
 {
