@@ -13,8 +13,8 @@ add_executable(test
 src/test.cpp
 )
 
-add_executable(batsolver
-src/batsolver.cpp
+add_executable(sudoku_pp
+src/sudoku_pp.cpp
 )
 
 add_executable(sigsolver
@@ -23,4 +23,14 @@ src/single_solver.cpp
 
 add_executable(sigloopsolver
 src/single_loop_solver.cpp
+)
+
+#compare algorithem - dlx
+add_executable(sudoku_dlx
+compare_algorithem/sudoku_dlx.cpp
+)
+
+#compare algorithem - bf
+add_executable(sudoku_bf
+compare_algorithem/sudoku_bf.cpp
 )

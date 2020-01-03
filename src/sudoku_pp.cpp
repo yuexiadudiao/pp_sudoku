@@ -1,5 +1,5 @@
 //#define PRINT_ANS //显示开关
-#define JUSTONE //一解开关
+//#define JUSTONE //一解开关
 
 #include<fstream>
 #include<ctime>
@@ -12,7 +12,7 @@ int main(int argc,char** argv)
 {
     if(argc!=2)
     {
-        cerr<<"[Error]：please input bat sudoku file!"<<endl;
+        cerr<<"[Error]：please input test sudoku file path!"<<endl;
         exit(1);
     }
 
@@ -21,12 +21,12 @@ int main(int argc,char** argv)
     SUDOKU_DFS sudoku_dfs(&db);
 
     ifstream batsudoku(argv[1]);
-    ofstream timelog("time_log.txt");
+    ofstream timelog("pp_timelog.txt");
 
     time_t t1,t2;
 
     int count=0;
-    timelog<<"time"<<endl;
+    timelog<<"pp_time"<<endl;
     while (!batsudoku.eof())
     {
         cout<<++count<<endl;
