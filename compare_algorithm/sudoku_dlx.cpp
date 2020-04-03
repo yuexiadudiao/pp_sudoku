@@ -1,14 +1,16 @@
 
 #include<iostream>
 #include<ctime>
+#include<memory.h>
+#include<cstdio>
 using namespace std;
 
 #define PRINT_ANS 0
 #define ONLY_ONE 1
 
 #define RR 729                 // 9*9*9  表示rck总数目 r代表行，c代表列 k代表值 比如123 代表一行二列 值是三
-#define CC 324                 // 9*9*4  表示 rk，ck，bk，rc 总个数 分别表示四个约束条件，每个数每行只能有一个 每列只能一个 每个九宫格只能一个  每个格子只能有一个数  
-#define INF 1000000000         // 假定最大值  
+#define CC 324                 // 9*9*4  表示 rk，ck，bk，rc 总个数 分别表示四个约束条件，每个数每行只能有一个 每列只能一个 每个九宫格只能一个  每个格子只能有一个数
+#define INF 1000000000         // 假定最大值
 int mem[RR+9];
 int ans[RR+9];                 // 解
 char ch[RR+9];                 // 谜题数组  记录题目的  由人输入
@@ -152,7 +154,7 @@ int main(int argc, char** argv)
     {
         printf("failed to open timelog file.\n");
         exit(1);
-    }    
+    }
 
     fprintf(log,"%s\n","dlx_time");
     while(fgets(ch,82,fp)!=NULL)
@@ -161,7 +163,7 @@ int main(int argc, char** argv)
         start=clock();
 
         cout<<"dlx_sudoku case "<<++case_id<<endl;
-        
+
 #if PRINT_ANS
         puts(ch);
 #endif
@@ -248,4 +250,3 @@ int main(int argc, char** argv)
     fclose(log);
     return 0;
 }
-
