@@ -4,7 +4,6 @@
 */
 
 //#define PRINT_ANS //显示开关
-//#define JUSTONE //一解开关
 #define TEST_LOOP 300
 
 #include<iostream>

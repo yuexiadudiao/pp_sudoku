@@ -1,5 +1,4 @@
 //#define PRINT_ANS //显示开关
-//#define JUSTONE //一解开关
 
 #include<fstream>
 #include<ctime>

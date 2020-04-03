@@ -108,7 +108,11 @@ void Sudoku::showArry()
     {
         for(int j=0; j<9; j++)
         {
-            cout<<arr_sudoku[i][j];
+            if(arr_sudoku[i][j])
+                cout<<arr_sudoku[i][j];
+            else
+                cout<<"_";
+                
             if(j%3==2) cout<<"|";
         }
         if(i==2 || i==5) cout<<"\n------------";

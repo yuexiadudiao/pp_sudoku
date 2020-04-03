@@ -25,6 +25,7 @@ private:
 
     int                         answer;/**< 答案计数器 */
     double                      timer;/**< 记录dfs算法时间 */
+    bool                        only_one;/**< 一个解开关，默认找出所有解 */
 public:
     /* 构造函数 */
     SUDOKU_DFS(DataBase* db);
@@ -41,28 +42,33 @@ public:
     /* 排序候选数字 */
     void sort_candidatelist();
 
-    /*  */
+    /* 打印候选数字的排序 */
     void info_candidatelist();
 
     /* dfs搜索 */
     void dfs(int layer);
 
     /* 获取dfs时间 */
-    double get_time();
+    double get_time()
+    {
+        return timer;
+    }
+
+    /* 选择是找一个解还是所有解 */
+    void set_onlyone(bool flag)
+    {
+        only_one = flag;
+    }
+
+    /* 查看设置是否是只找一个解 */
+    bool get_onlyone()
+    {
+        return only_one;
+    }
 
     /* 比较函数 */
     static bool comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b);
 };
-
-/* 获取dfs时间
- *
- * return 
- *
- */
-double SUDOKU_DFS::get_time()
-{
-    return timer;
-}
 
 /* sort算法需要的compare函数，根据可能性多少排序
  *
@@ -84,7 +90,7 @@ bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
  * return 无
  *
  */
-SUDOKU_DFS::SUDOKU_DFS(DataBase* db):m_db(db), m_sudoku(NULL), answer(0), timer(0){}
+SUDOKU_DFS::SUDOKU_DFS(DataBase* db):m_db(db), m_sudoku(NULL), answer(0), timer(0), only_one(false){}
 
 /* 为每一个数字创建候选列表
  *
@@ -232,16 +238,17 @@ void SUDOKU_DFS::dfs(int layer)
                     }
 
                     #ifdef PRINT_ANS
+                    cout<<"sudoku line:"<<endl;
                     m_sudoku->showArryLine();
+                    cout<<"sudoku grid:"<<endl;
+                    m_sudoku->showArry();
                     #endif
 
-                    //只找一个解的开关
-                    #ifdef JUSTONE
-                    if(1 == answer)
+                    //找一个解或者所有解
+                    if(only_one && 1 == answer)
                     {
                         return;
-                    }
-                    #endif
+                    }                
                 }
                 magic.pop_back();
             }

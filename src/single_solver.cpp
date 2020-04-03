@@ -4,7 +4,6 @@
 */
 
 #define PRINT_ANS //显示开关
-//#define JUSTONE //一解开关
 
 #include<iostream>
 #include<string>
@@ -30,7 +29,10 @@ int main(int argc,char** argv)
     Sudoku mysudoku(str);
     /*3，创建求解器*/
     SUDOKU_DFS sudoku_dfs(&db);
+    /* 设置只有一个解 */
+    //sudoku_dfs.set_onlyone(true);
     /*4，求解器开始工作*/
+    
     sudoku_dfs.resetSudoku(&mysudoku);
 
     cout<<"----------------------normal test-----------------------"<<endl;
