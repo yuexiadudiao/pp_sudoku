@@ -18,28 +18,35 @@ private:
 
     double timer;/**< 创建数据库耗时 */
 public:
-    /*创建数据库，并记录时间*/
+    /* 创建数据库，并记录时间 */
     DataBase();
 
-    /*读取文件创建正向和反向索引*/
+    /* 读取文件创建正向和反向索引 */
     void create_allindex();
 
-    /*获取一个ID对应的位点数据*/
+    /* 获取一个ID对应的位点数据 */
     PosePoint getById(PosePointID ppid);
 
-    /* */
+    /* 检索出满足给定数字又不与已填空格冲突的候选位点 */
     void search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist);
 
-    /*检查一个位点是否与另一个匹配*/
+    /* 检查一个位点是否与另一个匹配 */
     bool ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppid2);
 
-    /*检查一个位点是否与一个位点集合匹配*/
+    /* 检查一个位点是否与一个位点集合匹配 */
     bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
 
-    /*获取数据库创建的时间*/
+    /* 获取数据库创建的时间 */
     double get_time();
 };
 
+/* 数据库构造函数
+ *
+ * @param[in]   null
+ *
+ * return null
+ *
+ */
 DataBase::DataBase()
 {
     timer = 0;
@@ -51,16 +58,35 @@ DataBase::DataBase()
     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
 }
 
+/* 获取创建数据库消耗的时间
+ *
+ * return 创建数据库消耗的时间(ms)
+ *
+ */
 double DataBase::get_time()
 {
     return timer;
 }
 
+/* 按照位点的id查找对应的位点数据
+ *
+ * @param[in]   ppid        待比较的一个位点
+ *
+ * return 位点id对应的位点数据
+ *
+ */
 PosePoint DataBase::getById(PosePointID ppid)
 {
     return m_diindex[ppid];
 }
 
+/* 创建数据库正向和反向索引
+ *
+ * @param[in] 无
+ * 
+ * return 无
+ *
+ */
 void DataBase::create_allindex()
 {
     ifstream in("posepoint.txt");
@@ -120,7 +146,6 @@ bool DataBase::ismatch_posepoint(const PosePointID& ppid1,const PosePointID& ppi
     }
 }
 
-
 /* 比较一个位点是否与位点集合匹配
  *
  * @param[in]   ppid        待比较的一个位点
@@ -145,11 +170,11 @@ bool DataBase::ismatch_stack(const PosePointID& ppid,const vector<PosePointID>& 
 *
 *候选位点必须满足以下条件：
 *1,满足模板 pp
-*2,不与 conflict 冲突
+*2,不与已经填写的数字有冲突
 *
-* @param[in]    pp
+* @param[in]    pp          满足模板
 * @param[in]    conflict    题设中已经填写的数字
-* @param[in]    numlist
+* @param[out]    numlist    满足以上两个条件的候选位点集合
 *
 * return 无
 */

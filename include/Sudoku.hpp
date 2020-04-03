@@ -20,31 +20,31 @@ class Sudoku
 public:
     vector<PosePoint> pp_sudoku;
 public:
-    /*根据行数独构造类*/
+    /* 根据行数独构造类 */
     Sudoku(const string& str_sudoku);
 
-    /*转换为二维数组*/
+    /* 转换为二维数组 */
     void toArry(int sudoku_array[9][9]);
 
-    /*转换为二维数组，并九宫格显示*/
+    /* 转换为二维数组，并九宫格显示 */
     void showArry();
 
-    /*转换为二维数组，并行显示*/
+    /* 转换为二维数组，并行显示 */
     void showArryLine();
 
-    /*获取题设中某一个数字的位点*/
+    /* 获取题设中某一个数字的位点 */
     PosePoint getTemplateByNum(int num);
 
-    /*生成数字的冲突掩码*/
+    /* 生成数字的冲突掩码 */
     PosePoint createConflict(int num);
 
-    /**/
+    /* 如果确定了一个数字，就更新 */
     void update_ppsudoku(int update_num,const PosePoint& newpp);
 };
 
-/* 根据行数独构造类
+/* 根据长数独字符串构造数独
  *
- * @param[in]   str_sudoku  行数独
+ * @param[in]   str_sudoku  长数独字符串
  *
  */
 Sudoku::Sudoku(const string& str_sudoku)
@@ -73,10 +73,12 @@ Sudoku::Sudoku(const string& str_sudoku)
     //检测输入数独的每个 【数字位点】 是否合法（这里不采用查询数据库的方式），如果不合法，擦除数据
 }
 
-/*把数独转换成我们常用的二维数组形式
+/*把长字符串数独转换成我们常用的二维数组形式
  *
- * @param[in/out] sudoku_array
+ * @param[out]    sudoku_array  数独的二维数组形式
  *
+ * return 无
+ * 
  */
 void Sudoku::toArry(int sudoku_array[9][9])
 {
@@ -90,7 +92,13 @@ void Sudoku::toArry(int sudoku_array[9][9])
     }
 }
 
-/* 转换为二维数组，并以九宫格显示 */
+/* 显示已经求解后的数独，转换为二维数组，并以九宫格显示
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void Sudoku::showArry()
 {
     int arr_sudoku[9][9]= {0}; //必须初始化
@@ -108,7 +116,13 @@ void Sudoku::showArry()
     }
 }
 
-/* 转换为二维数组，并以行显示 */
+/* 显示已经求解后的数独，转换为二维数组，并以行显示
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void Sudoku::showArryLine()
 {
     int arr_sudoku[9][9]= {0};
@@ -123,13 +137,26 @@ void Sudoku::showArryLine()
     cout<<endl;
 }
 
-/*求解器通过该接口获取数字的模板位点*/
+/* 查询数独已经填写的数字对应的位点数据
+ *
+ * @param[in]   num     数独中数字
+ *
+ * return 数独中已经确定的数字对应的位点数据
+ *
+ */
 PosePoint Sudoku::getTemplateByNum(int num)
 {
     return pp_sudoku[num-1];
 }
 
-/* 如果确定了一个数字，就更新 */
+/* 如果确定了一个数字，就更新
+ *
+ * @param[in]   update_num      已经确定的数字
+ * @param[in]   newpp           该数字对应的位点数据
+ *
+ * return 无
+ *
+ */
 void Sudoku::update_ppsudoku(int update_num,const PosePoint& newpp)
 {
     pp_sudoku[update_num-1] = newpp;
@@ -137,9 +164,9 @@ void Sudoku::update_ppsudoku(int update_num,const PosePoint& newpp)
 
 /* 题设除去特定数字
  *
+ * @param[in]   
  *
- *
- *
+ * return 无
  *
  */
 PosePoint Sudoku::createConflict(int num)
@@ -151,7 +178,5 @@ PosePoint Sudoku::createConflict(int num)
     }
     return tishe^pp_sudoku[num-1];//题设与自身进行异或操作
 }
-
-
 
 #endif

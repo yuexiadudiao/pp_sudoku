@@ -26,46 +26,73 @@ private:
     int                         answer;/**< 答案计数器 */
     double                      timer;/**< 记录dfs算法时间 */
 public:
-    /**/
+    /* 构造函数 */
     SUDOKU_DFS(DataBase* db);
 
-    /*设置或重新设置数独题目*/
+    /* 设置或重新设置数独题目 */
     void resetSudoku(Sudoku* sudoku);
 
-    /*为数独的每一个数字创建候选列表*/
+    /* 为数独的每一个数字创建候选列表 */
     void create_candidatelist();
 
-    /**/
+    /* 打印候选数字 */
     void print_candidatelist();
 
-    /**/
+    /* 排序候选数字 */
     void sort_candidatelist();
 
-    /**/
+    /*  */
     void info_candidatelist();
 
-    /**/
+    /* dfs搜索 */
     void dfs(int layer);
 
-    /**/
+    /* 获取dfs时间 */
     double get_time();
 
+    /* 比较函数 */
     static bool comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b);
 };
 
+/* 获取dfs时间
+ *
+ * return 
+ *
+ */
 double SUDOKU_DFS::get_time()
 {
     return timer;
 }
 
+/* sort算法需要的compare函数，根据可能性多少排序
+ *
+ * @param[in]   a   某一个数字的所有可能候选
+ * @param[in]   b   某一个数字的所有可能候选
+ *
+ * return 匹配返回true，不匹配返回false
+ *
+ */
 bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
 {
     return a.second.size() < b.second.size();
 }
 
+/* dfs算法构造函数
+ *
+ * @param[in]   db      创建的数据库
+ *
+ * return 无
+ *
+ */
 SUDOKU_DFS::SUDOKU_DFS(DataBase* db):m_db(db), m_sudoku(NULL), answer(0), timer(0){}
 
-
+/* 为每一个数字创建候选列表
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::create_candidatelist()
 {
     bool reloopflag;
@@ -97,9 +124,13 @@ void SUDOKU_DFS::create_candidatelist()
     //cout<<"candidatelist has been created!"<<endl;
 }
 
-/*
-显示打印candidatelist到日志文件
-*/
+/* 显示打印candidatelist到日志文件
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::print_candidatelist()
 {
     ofstream log("./candidate_log.txt");
@@ -118,8 +149,13 @@ void SUDOKU_DFS::print_candidatelist()
     log.close();
 }
 
-
-
+/* 根据每个数字候选位点数量排序，最小的在左边，最大的在右边
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::sort_candidatelist()
 {
     //cout<<"now sort it......"<<endl;
@@ -132,6 +168,13 @@ void SUDOKU_DFS::sort_candidatelist()
     //info_candidatelist();
 }
 
+/* 打印数字候选排序
+ *
+ * @param[in]   无
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::info_candidatelist()
 {
     for(int i=0; i<9; i++)
@@ -142,6 +185,13 @@ void SUDOKU_DFS::info_candidatelist()
     }
 }
 
+/* dfs搜索
+ *
+ * @param[in]   layer   dfs层
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::dfs(int layer)
 {
     if(layer==0)
@@ -198,6 +248,14 @@ void SUDOKU_DFS::dfs(int layer)
         }
     }
 }
+
+/* 重新设置数独题目
+ *
+ * @param[in]   sudoku    数独题目数据
+ *
+ * return 无
+ *
+ */
 void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
 {
     /*0，一些必要的初始化操作*/

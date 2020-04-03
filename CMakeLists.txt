@@ -5,32 +5,18 @@ add_definitions(-std=c++11 -O3 -march=native)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-include_directories(
-${PROJECT_SOURCE_DIR}/include
-)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-add_executable(test
-src/test.cpp
-)
+add_executable(test src/test.cpp)
 
-add_executable(sudoku_pp
-src/sudoku_pp.cpp
-)
+add_executable(sudoku_pp src/sudoku_pp.cpp)
 
-add_executable(sigsolver
-src/single_solver.cpp
-)
+add_executable(sigsolver src/single_solver.cpp)
 
-add_executable(sigloopsolver
-src/single_loop_solver.cpp
-)
+add_executable(sigloopsolver src/single_loop_solver.cpp)
 
 #compare algorithem - dlx
-add_executable(sudoku_dlx
-compare_algorithem/sudoku_dlx.cpp
-)
+add_executable(sudoku_dlx compare_algorithm/sudoku_dlx.cpp)
 
 #compare algorithem - bf
-add_executable(sudoku_bf
-compare_algorithem/sudoku_bf.cpp
-)
+add_executable(sudoku_bf compare_algorithm/sudoku_bf.cpp)
