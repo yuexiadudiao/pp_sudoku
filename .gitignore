@@ -3,6 +3,9 @@ build/
 bin/
 !bin/posepoint.txt
 !bin/plottime.py
+!bin/sudoku_benchmark.sh
+.vscode/
 
 #file
 .DS_Store
+

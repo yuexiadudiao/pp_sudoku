@@ -9,11 +9,13 @@
 删除readsudoku函数
 将bf搜索修改为每个格子从1-9依次尝试
 ************************************************************** */
-#include<stdio.h>
 #include<ctime>
-#include<stdlib.h>
+#include<iostream>
+
+using namespace std;
 
 #define PRINT_ANS 0
+#define ONLY_ONE 0
 
 #define MAX_LINE 1024
 
@@ -70,7 +72,9 @@ bool check(int sudoku[9][9],int i,int j,int k)
 //数独求解函数
 void solver(int sudoku[9][9],int n)
 {
-    if(result==1) return;
+    #if ONLY_ONE
+        if(result==1) return;
+    #endif
     int temp[9][9];
     int i,j;
     for(i=0; i<9; i++)
@@ -126,7 +130,7 @@ int main(int argc, char** argv)
 	//参数解析
    	if(argc!=2)
     {
-		printf("[Error]：please input test sudoku file path!");
+		printf("[Error]：please input test sudoku file path!\n");
         exit(1);
     }
 
@@ -157,8 +161,7 @@ int main(int argc, char** argv)
 		show_sudoku(sudoku);
 #endif           
 		//显示当前处理的用例编号
-		case_id++;
-		printf("%d\n",case_id);
+		cout<<"bf_sudoku case "<<++case_id<<endl;
 		
 		//计时开始
 		time_t start,end;

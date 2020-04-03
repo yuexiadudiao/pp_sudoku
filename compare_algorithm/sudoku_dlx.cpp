@@ -4,6 +4,7 @@
 using namespace std;
 
 #define PRINT_ANS 0
+#define ONLY_ONE 1
 
 #define RR 729                 // 9*9*9  表示rck总数目 r代表行，c代表列 k代表值 比如123 代表一行二列 值是三
 #define CC 324                 // 9*9*4  表示 rk，ck，bk，rc 总个数 分别表示四个约束条件，每个数每行只能有一个 每列只能一个 每个九宫格只能一个  每个格子只能有一个数  
@@ -135,7 +136,7 @@ int main(int argc, char** argv)
 
     if(argc!=2)
     {
-        printf("[Error]：please input test sudoku file path!");
+        printf("[Error]：please input test sudoku file path!\n");
         exit(1);
     }
 
@@ -159,8 +160,8 @@ int main(int argc, char** argv)
         time_t start,end;
         start=clock();
 
-        case_id++;
-        printf("%d\n",case_id);
+        cout<<"dlx_sudoku case "<<++case_id<<endl;
+        
 #if PRINT_ANS
         puts(ch);
 #endif

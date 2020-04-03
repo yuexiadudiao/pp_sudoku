@@ -28,7 +28,7 @@ int main(int argc,char** argv)
     timelog<<"pp_time"<<endl;
     while (!batsudoku.eof())
     {
-        cout<<++count<<endl;
+        cout<<"pp_sudoku case "<<++count<<endl;
         string str;
         batsudoku>>str;
 
