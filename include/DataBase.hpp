@@ -83,7 +83,7 @@ PosePoint DataBase::getById(PosePointID ppid)
 /* 创建数据库正向和反向索引
  *
  * @param[in] 无
- * 
+ *
  * return 无
  *
  */
