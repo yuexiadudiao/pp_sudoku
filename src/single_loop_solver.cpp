@@ -28,12 +28,18 @@ int main(int argc,char** argv)
     int loop = TEST_LOOP;
     double db_avg = 0;
     double sudoku_avg = 0;
+    bool success = false;
     while(loop--)
     {
-        DataBase db;
+        DataBase db("./posepoint.txt");
         Sudoku mysudoku(str);
         SUDOKU_DFS sudoku_dfs(&db);
-        sudoku_dfs.resetSudoku(&mysudoku);
+        success = sudoku_dfs.resetSudoku(&mysudoku);
+        if(!success)
+        {
+            cerr<<"[Error]:Failed to solve problem!"<<endl;
+            return 0;
+        }
 
         db_avg+= db.get_time();
         sudoku_avg+= sudoku_dfs.get_time();

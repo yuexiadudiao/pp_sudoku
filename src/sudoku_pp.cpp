@@ -15,7 +15,7 @@ int main(int argc,char** argv)
         exit(1);
     }
 
-    DataBase db;
+    DataBase db("./posepoint.txt");
 
     SUDOKU_DFS sudoku_dfs(&db);
 
@@ -25,6 +25,7 @@ int main(int argc,char** argv)
     time_t t1,t2;
 
     int count=0;
+    bool success = false;
     timelog<<"pp_time"<<endl;
     while (!batsudoku.eof())
     {
@@ -35,11 +36,17 @@ int main(int argc,char** argv)
         Sudoku sudoku(str);
 
         t1 = clock();
-        sudoku_dfs.resetSudoku(&sudoku);
+        success = sudoku_dfs.resetSudoku(&sudoku);
+        if(!success)
+        {
+            cerr<<"[Error]:Failed to solve problem!"<<endl;
+            goto out;
+        }
         t2 = clock();
         timelog<<(double)(t2 - t1)/CLOCKS_PER_SEC*1000<<endl;
     }
 
+out:
     batsudoku.close();
     timelog.close();
 }

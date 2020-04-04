@@ -7,7 +7,7 @@ you can add our sudoku solver to your own code.
 
 ```c++
 /*1.create a database*/
-DataBase db;
+DataBase db("./posepoint.txt");
 /*2.create a sudoku*/
 string str("..53.....8......20.7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97.. ");
 Sudoku mysudoku(str);

@@ -31,10 +31,10 @@ public:
     SUDOKU_DFS(DataBase* db);
 
     /* 设置或重新设置数独题目 */
-    void resetSudoku(Sudoku* sudoku);
+    bool resetSudoku(Sudoku* sudoku);
 
     /* 为数独的每一个数字创建候选列表 */
-    void create_candidatelist();
+    bool create_candidatelist();
 
     /* 打印候选数字 */
     void print_candidatelist();
@@ -96,10 +96,10 @@ SUDOKU_DFS::SUDOKU_DFS(DataBase* db):m_db(db), m_sudoku(NULL), answer(0), timer(
  *
  * @param[in]   无
  *
- * return 无
+ * return 候选列表是否成功生成
  *
  */
-void SUDOKU_DFS::create_candidatelist()
+bool SUDOKU_DFS::create_candidatelist()
 {
     bool reloopflag;
     bool hasupdate[9]= {0};
@@ -114,6 +114,13 @@ void SUDOKU_DFS::create_candidatelist()
             //cout<<"temple="<<m_sudoku->getTemplateByNum(i+1)<<endl;
             //cout<<"confli="<<m_sudoku->createConflict(i+1)<<endl;
             m_db->search(m_sudoku->getTemplateByNum(i+1),m_sudoku->createConflict(i+1),numlist);
+
+            if(0 == numlist.size())
+            {
+                cerr<<"[Error]:invalid sudoku problem!"<<endl;
+                return false;
+            }
+
             if(numlist.size()==1 && hasupdate[i]==0) //只剩下一种情况，并且该数字没有更新过
             {
                 //cout<<"num "<<i+1<<" has been confirmed!"<<endl;
@@ -128,6 +135,7 @@ void SUDOKU_DFS::create_candidatelist()
     }
     while (reloopflag);
     //cout<<"candidatelist has been created!"<<endl;
+    return true;
 }
 
 /* 显示打印candidatelist到日志文件
@@ -260,10 +268,10 @@ void SUDOKU_DFS::dfs(int layer)
  *
  * @param[in]   sudoku    数独题目数据
  *
- * return 无
+ * return 是否求解成功
  *
  */
-void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
+bool SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
 {
     /*0，一些必要的初始化操作*/
     for(int i=0; i<9; i++) //初始化顺序数组
@@ -283,11 +291,16 @@ void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
 
     time_t t1=clock();
     /*1,创建候选的位点*/
-    create_candidatelist();
+    if(!create_candidatelist())
+    {
+        //失败，直接返回
+        return false;
+    }
 
     /*2,排序*/
     sort_candidatelist();//创建完数据之后，直接对vector排序
     //print_candidatelist();//打印日志
+    //info_candidatelist();//打印排序
 
     /*3,DFS 搜索*/
     dfs(0);
@@ -295,6 +308,8 @@ void SUDOKU_DFS::resetSudoku(Sudoku* sudoku)
 
     //记录时间消耗
     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
+
+    return true;
 }
 
 #endif

@@ -21,9 +21,11 @@ int main(int argc,char** argv)
         cerr<<"[Error]:please input sudoku!"<<endl;
         exit(1);
     }
+    
+    bool success = false;
 
     /*1，创建数据库*/
-    DataBase db;
+    DataBase db("./posepoint.txt");
     /*2，创建数独*/
     string str(argv[1]);
     Sudoku mysudoku(str);
@@ -33,8 +35,12 @@ int main(int argc,char** argv)
     //sudoku_dfs.set_onlyone(true);
     /*4，求解器开始工作*/
     
-    sudoku_dfs.resetSudoku(&mysudoku);
-
+    success = sudoku_dfs.resetSudoku(&mysudoku);
+    if(!success)
+    {
+        cerr<<"[Error]:Failed to solve problem!"<<endl;
+        return 0;
+    }
     cout<<"----------------------normal test-----------------------"<<endl;
     cout<<"time of creating database :"<<db.get_time()<<"ms"<<endl;
     cout<<"time of match,sort and dfs:"<<sudoku_dfs.get_time()<<"ms"<<endl;

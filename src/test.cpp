@@ -17,7 +17,7 @@ int main(int argc,char** argv)
 {
 
     time_t t1=clock();
-    DataBase db;
+    DataBase db("./posepoint.txt");
     time_t t2=clock();
 
     #if TEST_API_1

@@ -40,6 +40,9 @@ public:
 
     /* 如果确定了一个数字，就更新 */
     void update_ppsudoku(int update_num,const PosePoint& newpp);
+
+    /* 校验数独的合法性 */
+    bool check_sudoku();
 };
 
 /* 根据长数独字符串构造数独
@@ -66,11 +69,11 @@ Sudoku::Sudoku(const string& str_sudoku)
             if(str_sudoku[j] == ('1' - 1 + i))
                 num.at(j)='1';
         }
+        //题设给定的可能是不合法的，这里需要检测
         pp_sudoku.push_back(PosePoint(num));
 
         //  cout<<"num "<<i<<":"<<num<<endl;
     }
-    //检测输入数独的每个 【数字位点】 是否合法（这里不采用查询数据库的方式），如果不合法，擦除数据
 }
 
 /*把长字符串数独转换成我们常用的二维数组形式
@@ -181,6 +184,11 @@ PosePoint Sudoku::createConflict(int num)
         tishe|= pp_sudoku[i];//有1则1
     }
     return tishe^pp_sudoku[num-1];//题设与自身进行异或操作
+}
+
+bool Sudoku::check_sudoku()
+{
+    return true;
 }
 
 #endif

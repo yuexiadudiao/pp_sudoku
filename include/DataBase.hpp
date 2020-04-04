@@ -3,7 +3,8 @@
 
 #include <vector>
 #include <iostream>
-#include <fstream>//需要读取文件
+#include <fstream>
+#include <string>
 
 #include "commen.h"//使用位点
 
@@ -14,18 +15,21 @@ class DataBase
 {
 private:
     vector<PosePoint> m_diindex;/**< 记录0-46655号位点的具体数据 */
-    vector<vector<PosePointID> > m_inindex;//反向索引0-80,820.125kb(bug1,还可以用bitset<46656>做，大约460kb，直接按位与运算)
-
+    vector<vector<PosePointID> > m_inindex;/**< 反向索引0-80,820.125kb(bug1,还可以用bitset<46656>做，大约460kb，直接按位与运算) */
+    string path;/**< posepoint文件位置 */
     double timer;/**< 创建数据库耗时 */
 public:
     /* 创建数据库，并记录时间 */
-    DataBase();
+    DataBase(const string& path_to_pp);
 
     /* 读取文件创建正向和反向索引 */
     void create_allindex();
 
     /* 获取一个ID对应的位点数据 */
-    PosePoint getById(PosePointID ppid);
+    PosePoint getById(PosePointID ppid)
+    {
+        return m_diindex[ppid];
+    }
 
     /* 检索出满足给定数字又不与已填空格冲突的候选位点 */
     void search(const PosePoint& pp,const PosePoint& conflict,vector<PosePointID>& numlist);
@@ -37,17 +41,20 @@ public:
     bool ismatch_stack(const PosePointID& ppid,const vector<PosePointID> & ppid_stack);//这个magicstack可能要用std::map<NumID,PosePointID>
 
     /* 获取数据库创建的时间 */
-    double get_time();
+    double get_time()
+    {
+        return timer;
+    }
 };
 
 /* 数据库构造函数
  *
- * @param[in]   null
+ * @param[in]   posepoint文件所在位置
  *
  * return null
  *
  */
-DataBase::DataBase()
+DataBase::DataBase(const string& path_to_pp):path(path_to_pp)
 {
     timer = 0;
 
@@ -56,28 +63,6 @@ DataBase::DataBase()
     time_t t2 = clock();
 
     timer = (double)(t2 - t1)/CLOCKS_PER_SEC*1000;
-}
-
-/* 获取创建数据库消耗的时间
- *
- * return 创建数据库消耗的时间(ms)
- *
- */
-double DataBase::get_time()
-{
-    return timer;
-}
-
-/* 按照位点的id查找对应的位点数据
- *
- * @param[in]   ppid        待比较的一个位点
- *
- * return 位点id对应的位点数据
- *
- */
-PosePoint DataBase::getById(PosePointID ppid)
-{
-    return m_diindex[ppid];
 }
 
 /* 创建数据库正向和反向索引
@@ -89,11 +74,11 @@ PosePoint DataBase::getById(PosePointID ppid)
  */
 void DataBase::create_allindex()
 {
-    ifstream in("posepoint.txt");
+    ifstream in(path);
 
     if(!in.is_open())
     {
-        cerr<<"cannot open posepoint.txt file!"<<endl;
+        cerr<<"[Error]:cannot open posepoint.txt file!"<<endl;
         exit(0);
     }
 
