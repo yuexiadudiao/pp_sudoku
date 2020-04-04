@@ -1,5 +1,5 @@
 ### What Is It
-pp_sudoku is a noval C++ sudoku solver library which based on pose point.  
+pp_sudoku is a novel C++ sudoku solver library which based on pose point.  
 
 ### How To Use
 
