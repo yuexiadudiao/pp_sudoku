@@ -16,7 +16,7 @@ TestCase：a simple testcase
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input：..53.....8......20.7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97..  
 &nbsp;&nbsp;&nbsp;Output：145327698839654127672918543496185372218473956753296481367542819984761235521839764  
 
-TestCase：test the sudoku which has four solutions
+TestCase：test the sudoku which has four solutions  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input：009217030012005000735486219961728453200153967357649821190802000070001382020074196  
 &nbsp;&nbsp;&nbsp;Output：689217534412395678735486219961728453248153967357649821196832745574961382823574196  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;489217635612395748735486219961728453248153967357649821196832574574961382823574196  
