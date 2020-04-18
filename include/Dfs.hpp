@@ -67,7 +67,7 @@ public:
     }
 
     /* 比较函数 */
-    static bool comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b);
+    static bool comp(const std::pair<NumID,NumList> & a,const std::pair<NumID,NumList> & b);
 };
 
 /* sort算法需要的compare函数，根据可能性多少排序
@@ -78,7 +78,7 @@ public:
  * return 匹配返回true，不匹配返回false
  *
  */
-bool SUDOKU_DFS::comp(std::pair<NumID,NumList> a,std::pair<NumID,NumList> b)
+bool SUDOKU_DFS::comp(const std::pair<NumID,NumList> & a,const std::pair<NumID,NumList> & b)
 {
     return a.second.size() < b.second.size();
 }

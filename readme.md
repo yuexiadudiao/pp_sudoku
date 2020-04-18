@@ -72,13 +72,25 @@ The program will generate three log files under bin folder which recored the tim
 ./plottime.py
 ```
 
-
+STL that i used  
+vector
+map
+sort
 
 ![top95](./data/top95.png)
 
 ### Conclusion
 
 Our method has an advantage in 17-cue hard sudoku.It is faster than bf_sudoku.but it is hard to say that a sudoku solver is better than another,because performance of sudoku solver depends on the difficulty of sudoku.but for dlx_sudoku, it performs well almost on all datasets.DLX algorithm can solver most sudoku by less then 1ms,it is incredibly fast enough ^_^!.Donald E. Knuth is really a strongman.
+
+### STL that i used 
+
+1. bitset
+2. vector  
+3. map  
+4. sort  
+
+
 
 ### References  
 [1] [The Probabilistic Sudoku Solver](https://www.feynmanlectures.caltech.edu/info/sudoku/pss.html)  
