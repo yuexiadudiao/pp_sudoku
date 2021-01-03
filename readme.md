@@ -32,7 +32,7 @@ run a simple sudoku solver:
 
 ```
 cd bin
-./sigsolver ..53.....8......20.7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97.. 
+./sigsolver ..53.....8......20.7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97..
 ```
 
 result is shown below:  
@@ -72,18 +72,13 @@ The program will generate three log files under bin folder which recored the tim
 ./plottime.py
 ```
 
-STL that i used  
-vector
-map
-sort
-
 ![top95](./data/top95.png)
 
 ### Conclusion
 
 Our method has an advantage in 17-cue hard sudoku.It is faster than bf_sudoku.but it is hard to say that a sudoku solver is better than another,because performance of sudoku solver depends on the difficulty of sudoku.but for dlx_sudoku, it performs well almost on all datasets.DLX algorithm can solver most sudoku by less then 1ms,it is incredibly fast enough ^_^!.Donald E. Knuth is really a strongman.
 
-### STL that i used 
+### STL that i used
 
 1. bitset
 2. vector  
